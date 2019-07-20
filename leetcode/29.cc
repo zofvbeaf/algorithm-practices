@@ -20,4 +20,23 @@ public:
   }
 };
 
-
+class Solution {
+public:
+	int divide(int dividend, int divisor) {
+		if(divisor == -1 && dividend == INT_MIN) return INT_MAX;
+		bool is_neg = ((dividend < 0) ^ (divisor < 0));
+		long dd = dividend < 0 ? 0-(long)dividend : dividend;
+		long dr = divisor < 0 ? 0-(long)divisor : divisor;
+		long ans = 0;
+		while(dd >= dr) {
+			long temp_dr = dr, temp_res = 1;
+			while(dd >= (temp_dr<<1)) {
+				temp_dr <<= 1;
+				temp_res <<= 1;
+			}
+			dd -= temp_dr;
+			ans += temp_res;
+		}
+		return is_neg ? 0-ans : ans;
+	}
+};
