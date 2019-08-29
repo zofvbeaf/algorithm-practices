@@ -1,85 +1,61 @@
-#include <bits/stdc++.h>
+#include<bits/stdc++.h>
 
-int n, m;
+using namespace std;
 
-int isnum(std::vector<std::string>& pic, int i, int j) {
-  if(n-i > 4 && m-j > 2) { // horizontal 2
-    if(      pic[i].substr(j, 3) == "###"
-        && pic[i+1].substr(j, 3) == "..#"
-        && pic[i+2].substr(j, 3) == "###"
-        && pic[i+3].substr(j, 3) == "#.."
-        && pic[i+4].substr(j, 3) == "###") {
-      pic[i].replace(j, 3, "...");
-      pic[i+1].replace(j, 3, "...");
-      pic[i+2].replace(j, 3, "...");
-      pic[i+3].replace(j, 3, "...");
-      pic[i+4].replace(j, 3, "...");
-      return 2;
-    } 
-  }
-  if(n-i > 2 && m-j > 4) { // vertical 2
-    if(     pic[i].substr(j, 5) == "###.#"
-       && pic[i+1].substr(j, 5) == "#.#.#"
-       && pic[i+2].substr(j, 5) == "#.###") {
-      pic[i].replace(j, 5, "....."); 
-      pic[i+1].replace(j, 5, "....."); 
-      pic[i+2].replace(j, 5, "....."); 
-      return 2;
+const int MAXN= 1000000+1;
+bool isPrime_[MAXN];
+vector<int> primes;
+
+void init(){
+    isPrime_[2] = true;
+    for(int i = 2 ; i < MAXN ;  i ++ ){
+        isPrime_[i] = true;
     }
-  }
-  if(n-i > 6 && m-j > 3) { //horizontal 5
-     if(     pic[i].substr(j, 4) == "####"
-        && pic[i+1].substr(j, 4) == "#...,"
-        && pic[i+2].substr(j, 4) == "#...,"
-        && pic[i+3].substr(j, 4) == "####"
-        && pic[i+4].substr(j, 4) == "...#"
-        && pic[i+5].substr(j, 4) == "...#"
-        && pic[i+6].substr(j, 4) == "####") {
-      pic[i].replace(j, 4, "...."); 
-      pic[i+1].replace(j, 4, "...."); 
-      pic[i+2].replace(j, 4, "...."); 
-      pic[i+3].replace(j, 4, "...."); 
-      pic[i+4].replace(j, 4, "...."); 
-      pic[i+5].replace(j, 4, "...."); 
-      pic[i+6].replace(j, 4, "...."); 
-      return 5;
-     } 
-  }
-  if(n-i > 3 && m-j > 6) { // vertical 5
-    if(     pic[i].substr(j, 7) == "#..####"
-       && pic[i+1].substr(j, 7) == "#..#..#"
-       && pic[i+2].substr(j, 7) == "#..#..#"
-       && pic[i+3].substr(j, 7) == "####..#") {
-      pic[i].replace(j, 7, ".......");   
-      pic[i+1].replace(j, 7, ".......");   
-      pic[i+2].replace(j, 7, ".......");   
-      pic[i+3].replace(j, 7, ".......");   
-      return 5;
+    for(int i = 2 ; i < MAXN ; i ++ ){
+        if(isPrime_[i]&&i!=2) {
+            primes.push_back(i);
+            for(int j = i<<1 ; j < MAXN ; j += i ){
+                isPrime_[j] = false;
+            }
+        }
     }
-  }
-  return 0;
 }
-
-int main() {
-  int T;
-  scanf("%d", &T);
-  while(T--) {
-    int n2 = 0, n5 = 0;
-    scanf("%d%d", &n, &m); 
-    std::vector<std::string> pic;
-    std::string str;
-    for(int i = 0; i < n; ++i) {
-      std::cin >> str;
-      pic.push_back(str);
+bool interesting(int x ){
+    int ox= x ;
+    int num_2 = 0 ;
+    while(x>0&&x%2==0){
+        x/=2;
+        num_2++;
     }
-    for(int i = 0; i < n; ++i)
-      for(int j = 0; j < m; ++j) {
-        if(pic[i][j] == '.') continue;
-        int x = isnum(pic, i, j);
-        if(x == 2) ++n2;
-        else if(x == 5) ++n5;
-      }
-    std::cout << n2 << " " << n5 << std::endl;
-  }
-  return 0;
+    int num_o = 1 ; 
+    vector<pair<int,int> > facts ;
+    int sqrt_ox = sqrt(ox);
+    for(int i = 0 ; x>1 && i < primes.size() && primes[i] <= sqrt_ox  && num_o < 10 ; i ++){
+        int  t =0  ;
+        while( x % primes[i] == 0 ){
+            t++ ; 
+            x /= primes[i] ; 
+        }
+        num_o *= t + 1 ; 
+    }
+    if(x>1){
+        num_o *= 2 ;
+
+    }
+    return abs(num_2*num_o-num_o) <= 2 ;
+}
+int main(){
+    init();
+    int T;
+    cin>>T;
+    for(int case_ = 1 ; case_ <= T; case_++){
+        int L ,R  ; 
+        cin>>L>>R;
+        int ans = 0 ; 
+        for(int x = L ; x <= R ; x ++ ){
+            if(interesting(x)) ans ++ ; 
+        }
+        printf("Case #%d: %d\n",case_,ans);
+    }
+    return 0 ;
 }

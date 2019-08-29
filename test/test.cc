@@ -1,41 +1,30 @@
+#include <algorithm>
+#include <vector>
 #include <cstdio>
-#include <cstring>
+
 using namespace std;
-char s[20000], t[2000000];
-int next[20000];
-void kmp_pre()
-{
-	int len = strlen(s);
-	int i = 0, j = -1;
-	next[0] = -1;
-	while(i < len)
-	{
-		if(j == -1 || s[i] == s[j])
-		{
-			i++, j++;
-			next[i] = s[i] == s[j] ? next[j] : j;
-		}
-		else j = next[j];
-	}
-	for(int i = 0; i <= len; ++i) 
-		printf("%d ", next[i]);
-	printf("\n");
-}
-int kmp()
-{
-	int i = 0, j = 0;
-	int ans = 0, len = strlen(s);
-	kmp_pre();
-	while(t[j])
-	{
-		if(i == -1 || s[i] == t[j]) i++, j++;
-		else i = next[i];
-		if(i == len) ans++;
-	}
-	return ans;
-}
-int main(){
-	sprintf(s, "ABCDABD");
-	kmp_pre();
-	return 0;
+
+const int maxn = 1<<30;
+
+int main() {
+  int T, E, F, n, V, p, w;
+  scanf("%d", &T);
+  while(T--) {
+    scanf("%d%d", &E, &F);
+    V = F - E;
+    scanf("%d", &n);
+    vector<int> a(n, 0);
+    vector<int> dp(V+1, maxn);
+    dp[0] = 0;
+    for(int i = 0; i < n; ++i) {
+      scanf("%d%d", &p, &w);
+      for(int j = w; j <= V; ++j)
+        dp[j] = min(dp[j], dp[j-w]+p);
+    }
+    if(dp[V] == maxn) 
+      printf("This is impossible.\n");
+    else
+      printf("The minimum amount of money in the piggy-bank is %d.\n", dp[V]);
+  }
+  return 0;
 }
