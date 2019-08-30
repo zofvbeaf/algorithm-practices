@@ -1,18 +1,20 @@
-## [一.动态规划 ](vjudge/note/dp.md)
+## 动态规划 
 
 ### 背包
 
 + 01背包
-
-> [hdu2546 饭卡](vjudge/hdu2546.cc)
-> [hdu2602 Bone Collector](vjudge/hdu2602.cc)
-> [poj3624 Charm Bracelet](vjudge/poj3624.cc)
-对于背包是否需要装满的不同写法  CF19B
-
+  + 模板题：`hdu2546`，`hdu2602`，`poj3624`
+  + 对于背包是否需要装满的不同写法  `CF19B`
 + 完全背包
-
-> [hiho1043 完全背包](vjudge/solution/hiho1043.md)
-> [hdu1114 Piggy-Bank](vjudge/hdu1114.cc)
+  + 模板题：`hiho1043`
+  + `hdu1114`：求装满时，总价值最小是多少
++ 多重背包
+  + `hdu1059`：多重背包，看是否能装满
++ 二维费用背包
+  + `hdu2159`：物品个数有限，装满（可超过）所消耗的最小代价
++ 分组背包
+  + `hdu3033`：每组内物品价值和代价不同，且数量有限，且必须每组至少取一个
+  + `hdu1712`：每组物品最多取一个，可以不取，模板题
 
 ### 其他
 
@@ -20,7 +22,7 @@
 > [hiho1032 最长回文子串](vjudge/solution/hiho1032.md)
 > [hiho1037 数字三角形](vjudge/solution/hiho1037.md)
 
-## 二.数据结构
+## 数据结构
 
 + 抽象数据类型（ADT）
 
@@ -57,7 +59,7 @@
 > [UVALive3135 Argus](vjudge/solution/uvalive3135.md)
 > [UVA11997 K Smallest Sums](vjudge/solution/uva11997.md)
 
-## 三.图论
+## 图论
 
 + 最短路径
 
